@@ -16,7 +16,7 @@ Three documents at the project root, with three different lifetimes — the spli
 | `CHANGELOG.md` | experiment history, **append-only**, newest first | `/handoff` |
 | `Design.md` | current pipeline design, **updated in place** | `/design` |
 
-`/setup-research` runs once per project and records that project's launch commands, tracking setup, and doc paths into its `CLAUDE.md`, so the other two stop guessing.
+`/setup-research` runs once per project and records that project's launch commands, layout and doc paths into its `CLAUDE.md`, so the other two stop guessing.
 
 ## Skills
 

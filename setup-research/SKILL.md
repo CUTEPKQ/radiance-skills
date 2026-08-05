@@ -1,6 +1,6 @@
 ---
 name: setup-research
-description: Record a research project's launch commands, tracking and doc conventions into its CLAUDE.md. Run once per project.
+description: Record a research project's launch commands, layout and doc conventions into its CLAUDE.md. Run once per project.
 argument-hint: "(none)"
 disable-model-invocation: true
 ---
@@ -31,9 +31,6 @@ Record this project's conventions into its root `CLAUDE.md`, so `handoff` and `d
 
 ### Layout
 - Configs / checkpoints / logs / datasets
-
-### Experiment tracking
-- <wandb entity/project, tensorboard logdir, or none>
 ```
 
 5. **Version control.** `CHANGELOG.md` and `Design.md` are the project's memory and belong in git; ask whether to gitignore `handoff.md`.
