@@ -9,6 +9,10 @@
   <img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue.svg">
 </p>
 
+<p align="center">
+  <b>English</b> · <a href="./docs/README.zh-CN.md">简体中文</a>
+</p>
+
 ---
 
 ## 🔬 The problem
@@ -70,8 +74,15 @@ A relentless interview, one question at a time, each with the agent's recommende
 
 Run it before an experiment, not after: it forces the questions that are expensive to answer late — what's the control, does the metric measure what you think, and **what result would kill this idea**.
 
+## 🙏 Acknowledgements
+
+This repo stands on [**mattpocock/skills**](https://github.com/mattpocock/skills) — Matt Pocock's *Skills For Real Engineers*.
+
+- **`grill-me` is his work, copied verbatim.** The only change is a merge: upstream splits the front door (`grill-me`) from the interview loop (`grilling`) because a second front door, `grill-with-docs`, shares that loop. With one front door here, the two collapse into one file. The interview text is his, word for word.
+- **`handoff` began as a fork of his `handoff`** and has since been rewritten around a different job — research sessions rather than software tickets.
+
+`design` and `setup-research` are original, but the shape they take — small, hackable, composable, one file each — is copied from him on purpose. Go read [his repo](https://github.com/mattpocock/skills) in full; it is better than this one.
+
 ## 📄 License
 
-MIT.
-
-`grill-me` is taken verbatim from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT), merging its `grill-me` and `grilling`. `handoff` began as a fork of his and has since been rewritten. Everything else is original. His originals are excellent and worth reading in full.
+MIT. Portions derive from mattpocock/skills, also MIT — see [LICENSE](./LICENSE).
