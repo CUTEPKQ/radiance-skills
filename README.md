@@ -1,28 +1,77 @@
-# my_skills
+<h1 align="center">✨ Radiance Skills</h1>
 
-My own skills — customised forks of upstream skills, plus anything I write from scratch.
+<p align="center">
+  Agent skills for <b>research projects</b> — keeping a method, its experiments, and its dead ends legible across sessions.
+</p>
 
-Kept outside `~/Workspace/skills` on purpose: that clone tracks `mattpocock/skills` upstream, so editing skills in place would conflict on every `git pull`. Forks live here instead and are free to diverge.
+<p align="center">
+  <a href="https://skills.sh/CUTEPKQ/radiance-skills"><img alt="skills.sh" src="https://skills.sh/b/CUTEPKQ/radiance-skills"></a>
+  <img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue.svg">
+</p>
 
-Run `./link.sh` to symlink these into `~/.claude/skills`. Re-run it after adding or renaming a skill.
+---
 
-## The research-project set
+## 🔬 The problem
 
-Three documents at the project root, with three different lifetimes — the split is the whole design:
+Research code moves by experiment, not by ticket. You try something, it half-works, you change three things, and two weeks later nobody — you included — can say why the pipeline looks like this or which variant already failed.
 
-| document | lifetime | written by |
+Agents make it worse: every session starts cold, re-derives your launch command, and cheerfully suggests the thing you ruled out last Tuesday.
+
+## 🗂 The idea
+
+Three documents, **three different lifetimes**. The split is the whole design — collapse them into one file and it rots.
+
+| Document | Lifetime | Answers |
 | --- | --- | --- |
-| `handoff.md` | current state, **overwritten** each session | `/handoff` |
-| `CHANGELOG.md` | experiment history, **append-only**, newest first | `/handoff` |
-| `Design.md` | current pipeline design, **updated in place** | `/design` |
+| 📌 `handoff.md` | current state, **overwritten** each session | *Where am I right now?* |
+| 📜 `CHANGELOG.md` | experiment history, **append-only** | *What did we already try, and what came of it?* |
+| 🧭 `Design.md` | current design, **patched in place** | *How does this pipeline actually work?* |
 
-`/setup-research` runs once per project and records that project's launch commands, layout and doc paths into its `CLAUDE.md`, so the other two stop guessing.
+A failed experiment never leaves `CHANGELOG.md`. A superseded design never lingers in `Design.md`. Yesterday's state never clutters `handoff.md`.
 
-## Skills
+## 📦 Install
 
-| skill | origin | notes |
-| --- | --- | --- |
-| [handoff](./handoff/SKILL.md) | fork of `mattpocock/skills` `productivity/handoff` | Writes to the **project root** instead of the OS temp dir. Overwrites `handoff.md` each session rather than accumulating, and appends the session's experiments to `CHANGELOG.md` — one entry per experiment, never per session. Requires evidence on every claim, verified-vs-assumed labelling, honest failure records, and copy-pasteable experiment commands. |
-| [design](./design/SKILL.md) | written from scratch | Maintains `Design.md`: how the pipeline is built, stage by stage — purpose, in/out with shapes, the mechanism in reimplementable detail, where it lives in code, hyperparameter provenance, why it's built that way, and what it assumes of its neighbours. Plus global conventions (axis order, normalization, masking) and known limitations. Patches in place; never regenerates. |
-| [setup-research](./setup-research/SKILL.md) | written from scratch | Investigates the project first, asks only what it can't find, writes a marker-delimited block into the project's `CLAUDE.md`. Never records a command it hasn't confirmed exists. |
-| [grill-me](./grill-me/SKILL.md) | merge of `mattpocock/skills` `grill-me` + `grilling` | Upstream splits the front door from the loop because `grill-with-docs` shares that loop; with only one front door here, the interview text lives directly in `grill-me`. Body is upstream's verbatim. Model-invocable, so `/grill-me` *and* plain "grill me on this" both work. |
+```bash
+npx skills@latest add CUTEPKQ/radiance-skills
+```
+
+Pick the skills you want and which agents to install them on. Update later with `npx skills update`.
+
+## ⚙️ Use
+
+```bash
+/setup-research     # once per project — records launch commands and layout into CLAUDE.md
+/design             # write or update Design.md
+/handoff            # end of session — rewrite handoff.md, append to CHANGELOG.md
+/grill-me           # before you build — get interviewed until the plan has no soft spots
+```
+
+## 🧰 The skills
+
+### 🔧 [setup-research](./skills/setup-research/SKILL.md)
+
+Run once per project. Digs through `pyproject.toml`, `Makefile`, `scripts/`, `configs/` and the git log itself, asks only what it couldn't find — one question at a time — and writes the result into the project's `CLAUDE.md`, which every session loads automatically. **Never records a command it hasn't confirmed exists**; unverifiable ones are tagged `unverified` rather than presented as fact.
+
+### 🧭 [design](./skills/design/SKILL.md)
+
+Maintains `Design.md`: the pipeline stage by stage — purpose, in/out **with tensor shapes**, the mechanism in enough detail to reimplement, where it lives in code, hyperparameters tagged `paper default` / `empirical` / `arbitrary`, why it's built that way and what would overturn that, and what each stage assumes of its neighbours. Plus the global conventions — axis order, normalization, masking — that cross-stage bugs come from.
+
+Patches in place, never regenerates. Where document and code disagree, the code wins.
+
+### 📌 [handoff](./skills/handoff/SKILL.md)
+
+Rewrites `handoff.md` end to end: what got done (with evidence — a metric, an error that stopped firing, a diff path), what's open (tagged `in progress` / `blocked` / `needs verification` / `parked`), and **copy-pasteable** commands, never "run the training script".
+
+Then appends to `CHANGELOG.md` — **one entry per experiment, not per session**, and nothing at all if nothing was tried. Existing entries are never edited, so failures stay on the record permanently.
+
+### 🔥 [grill-me](./skills/grill-me/SKILL.md)
+
+A relentless interview, one question at a time, each with the agent's recommended answer, until every branch of the decision tree is resolved. Facts it can look up, it looks up; the decisions are yours. It won't act until you confirm you've reached a shared understanding.
+
+Run it before an experiment, not after: it forces the questions that are expensive to answer late — what's the control, does the metric measure what you think, and **what result would kill this idea**.
+
+## 📄 License
+
+MIT.
+
+`grill-me` is taken verbatim from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT), merging its `grill-me` and `grilling`. `handoff` began as a fork of his and has since been rewritten. Everything else is original. His originals are excellent and worth reading in full.
