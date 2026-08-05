@@ -1,55 +1,53 @@
 ---
 name: design
-description: Create or update Design.md — the current pipeline design of the method being built.
+description: Create or update Design.md — how the method's pipeline is built, stage by stage.
 argument-hint: "What changed in the design?"
 disable-model-invocation: true
 ---
 
 # Design
 
-Maintain **`Design.md`** — a description of the method's pipeline **as it stands right now**, complete enough that a fresh agent understands the approach without reading the code. It goes at the project root unless the project's `CLAUDE.md` says otherwise.
+Maintain **`Design.md`**: the design of the pipeline and **how each stage is implemented**, as it stands right now. Complete enough that someone could reimplement the method from this document alone — and detailed enough that reading it beats reading the code when you want to know how a stage works.
+
+It goes at the project root unless the project's `CLAUDE.md` says otherwise.
 
 ## Rules
 
 1. **Current state only. Update in place.**
-   `Design.md` never accumulates history — no "previously we did X", no changelog at the bottom. Superseded designs belong in `CHANGELOG.md`. If a design change is worth remembering, append the reason there and leave `Design.md` describing only what is true now.
+   No "previously we did X", no changelog at the bottom. Superseded designs belong in `CHANGELOG.md`. If a design change is worth remembering, append the reason there and leave `Design.md` describing only what is true now.
 2. **Read it first, then patch what the change touches.**
-   Never regenerate the whole document from scratch — that quietly drops detail nobody thought to restate.
-3. **Implemented and planned are different things.**
-   Tag anything not yet built as `planned`. A reader must never mistake an intention for working code.
+   Never regenerate the whole document — that quietly drops detail nobody thought to restate.
+3. **Describe the mechanism, don't paste the code.**
+   Write the algorithm: the steps, the formulas, the transformations, the branching. Someone who wants the literal code follows the path you cited. A stage described only as "handles the encoding" is a failure — say *how* it encodes.
 4. **Ground every claim in the code.**
-   Each stage names the file or module implementing it. Where the document and the code disagree, the code wins — fix the document. If you cannot find the code for something the user describes, say so rather than documenting it as if it exists.
-5. **Annotate tensor shapes** at every stage boundary.
-6. **Record decisions, not just layout.**
-   The most valuable part of this document is *why* the pipeline looks like this — including what was rejected and what would make you reconsider.
+   Every stage cites the file and symbol implementing it, as `path/to/file.py:ClassOrFunction`. Where document and code disagree, the code wins — fix the document. If you cannot find code for something, say so instead of documenting it as if it exists.
+5. **Implemented and planned are different things.** Tag anything not yet built as `planned`. A reader must never mistake an intention for working code.
+6. **Shapes everywhere.** Every tensor crossing a stage boundary gets its shape, dtype, and value range or convention.
 7. **Arguments are the change to fold in.** If the user passed arguments, treat them as the design change being recorded.
 
 ## Structure
 
-### 1. Objective
+### 1. Overview
 
-One paragraph: what the method is trying to do, and what counts as success — which metric, on which benchmark, against which baseline.
+A short paragraph — what the method does and what counts as success (which metric, which benchmark, which baseline) — then a diagram of the flow (mermaid or ASCII). The diagram is the map the rest of the document hangs off.
 
-### 2. Pipeline
+### 2. Global conventions
 
-Walk the stages end to end — data → model → training → inference / evaluation. For each stage:
+The things every stage must agree on, and where cross-stage bugs come from: data layout and axis order, coordinate system, normalization convention, time / frame indexing, padding and masking, dtype and device policy. Short, but state it explicitly — a convention that lives only in people's heads is the one that silently breaks.
 
-- what goes in and what comes out, **with shapes**
-- the file or module that implements it
-- key hyperparameters, each tagged with its origin: `paper default` / `empirical` / `arbitrary`
+### 3. Pipeline
 
-Put a diagram (mermaid or ASCII) at the top of this section if the flow branches or loops.
+The body of the document. One subsection per stage, walking the flow end to end — data → model → training → inference / evaluation. Split a stage further whenever a sub-part has its own non-obvious mechanism.
 
-### 3. Key design decisions
+For each stage:
 
-One entry per non-obvious choice:
-
-- the decision
-- why — the reasoning or the evidence
-- what was rejected, and why it lost
-- what evidence would overturn it
-
-Link to the `CHANGELOG.md` entry or the paper that backs each one.
+- **Purpose** — one line: what it is responsible for.
+- **In → out** — every tensor, with shape, dtype, and value range or convention.
+- **How it works** — the mechanism, in enough detail to reimplement: the steps in order, the formulas or losses, what is learned versus fixed, the branching and special cases. This is the part that matters most; give it the most room.
+- **Where** — `path/to/file.py:ClassOrFunction` for the implementation, plus the config that drives it.
+- **Hyperparameters** — the ones that matter, each tagged with its origin: `paper default` / `empirical` / `arbitrary`.
+- **Why this way** — the design choice behind this stage, what was rejected, and what evidence would overturn it. Link the `CHANGELOG.md` entry or paper backing it. Skip this line when the stage is a standard, unremarkable implementation — don't manufacture rationale.
+- **Assumptions** — what this stage requires of its input, and what downstream stages may rely on from its output.
 
 ### 4. Known limitations / unverified
 
