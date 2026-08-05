@@ -45,9 +45,10 @@ npx skills@latest add CUTEPKQ/radiance-skills
 
 ```bash
 /setup-research     # 每个项目跑一次 —— 把启动命令和目录约定写进 CLAUDE.md
+/grill-me           # 动手之前 —— 被追问到计划没有软肋为止
 /design             # 编写或更新 Design.md
 /handoff            # 收工时 —— 重写 handoff.md，追加 CHANGELOG.md
-/grill-me           # 动手之前 —— 被追问到计划没有软肋为止
+/keep-going         # 下次开工 —— 从 handoff.md 接续
 ```
 
 ## 🧰 skill 清单
@@ -69,6 +70,12 @@ npx skills@latest add CUTEPKQ/radiance-skills
 整份重写 `handoff.md`：本轮做完了什么（**必须带证据**——一个指标、一个不再报的错、一条 diff 路径）、什么还开着（标 `in progress` / `blocked` / `needs verification` / `parked`）、以及**可直接复制执行**的命令，禁止写「跑一下训练脚本」这种废话。
 
 然后追加 `CHANGELOG.md`——**一次实验一条，不是一个 session 一条**，没做实验就一条不写。既有条目永不修改，失败永久留档。
+
+### ▶️ [keep-going](../skills/keep-going/SKILL.md)
+
+`handoff` 的另一端。读 `handoff.md`，然后**先拿现实核对一遍再决定信不信它**——文档是某个时间点写的，世界往前走了：它写着「训练中，明天看」的那个 run，可能二十分钟后就挂了。先报这个 delta，然后**只接一件事**。
+
+刻意**不读** `CHANGELOG.md`：那是历史，为了接续而重读全部过往实验是纯浪费 context。它只在你准备动手试某个方案之前被查一次——确认这个方案没有已经被否掉。
 
 ### 🔥 [grill-me](../skills/grill-me/SKILL.md)
 

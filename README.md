@@ -45,9 +45,10 @@ Pick the skills you want and which agents to install them on. Update later with 
 
 ```bash
 /setup-research     # once per project — records launch commands and layout into CLAUDE.md
+/grill-me           # before you build — get interviewed until the plan has no soft spots
 /design             # write or update Design.md
 /handoff            # end of session — rewrite handoff.md, append to CHANGELOG.md
-/grill-me           # before you build — get interviewed until the plan has no soft spots
+/keep-going         # start of the next one — resume from handoff.md
 ```
 
 ## 🧰 The skills
@@ -67,6 +68,12 @@ Patches in place, never regenerates. Where document and code disagree, the code 
 Rewrites `handoff.md` end to end: what got done (with evidence — a metric, an error that stopped firing, a diff path), what's open (tagged `in progress` / `blocked` / `needs verification` / `parked`), and **copy-pasteable** commands, never "run the training script".
 
 Then appends to `CHANGELOG.md` — **one entry per experiment, not per session**, and nothing at all if nothing was tried. Existing entries are never edited, so failures stay on the record permanently.
+
+### ▶️ [keep-going](./skills/keep-going/SKILL.md)
+
+The other end of `handoff`. Reads `handoff.md`, then **verifies it against reality before trusting a word of it** — the doc was written at a point in time and the world moved on, so the run it left "training, check tomorrow" may have died twenty minutes later. Reports that delta first, then takes exactly one open item.
+
+Deliberately does *not* read `CHANGELOG.md`: that is history, and re-reading every past experiment to resume is wasted context. It gets consulted before trying something, to check it wasn't already ruled out.
 
 ### 🔥 [grill-me](./skills/grill-me/SKILL.md)
 
