@@ -54,6 +54,8 @@ npx skills@latest add CUTEPKQ/radiance-skills
 /design             # 编写或更新 Design.md
 /handoff            # 收工时 —— 重写 handoff.md，整理本轮定下来的东西
 /keep-going         # 下次开工 —— 从 handoff.md 接续
+/pipeline-figure-style   # 画方法图，或给已有的图挑毛病
+/academic-page           # 把报告、memo 做成单页 HTML
 ```
 
 ## 🧰 skill 清单
@@ -94,6 +96,14 @@ npx skills@latest add CUTEPKQ/radiance-skills
 
 写任何给 agent 读的文档时的参考：skill、`CLAUDE.md`、被指针引用的文档。讲 context pointer、两种负载（context load 和 cognitive load）、信息层级、完成判据、leading word，以及逐句删到不剩 no-op。你新建或修改 skill、改 `CLAUDE.md` / `AGENTS.md` 时，agent 会自己调用它。
 
+### 🎨 [pipeline-figure-style](../skills/pipeline-figure-style/SKILL.md)
+
+pipeline / 方法 / 架构图的统一风格：版式、配色（带色值和面积占比）、形状、箭头走线、字体。白底浅色面板，**一个模块一种色相**，高饱和只留给创新点。既能画新图（HTML/SVG，或给 draw.io / Figma / PPT 的规格），也能检查已有的图并给出具体改法。
+
+### 📄 [academic-page](../skills/academic-page/SKILL.md)
+
+生成或美化单页研究 HTML（研究汇报、调研 memo、实验报告），从自带的 [`template.html`](../skills/academic-page/template.html) 开始。配色固定，强调色每屏最多一处，**动效必须承担表达任务**；数字要核实来源，查不到的标"未核实"。
+
 ## 🙏 致谢
 
 这个 repo 建立在 [**mattpocock/skills**](https://github.com/mattpocock/skills)（Matt Pocock 的 *Skills For Real Engineers*）之上。
@@ -103,7 +113,7 @@ npx skills@latest add CUTEPKQ/radiance-skills
 - **`writing-for-agents` 是他的作品，逐字拷贝。**
 - **`handoff` 最初是他 `handoff` 的 fork**，之后为了另一件事重写了——研究会话，而不是软件工单。
 
-`design` 和 `setup-research` 是原创，但它们的形态——小、易改、可组合、一个文件一件事——是刻意照抄他的。去把[他的 repo](https://github.com/mattpocock/skills) 完整读一遍，那个比这个好。
+`pipeline-figure-style` 和 `academic-page` 是原创。`design` 和 `setup-research` 也是原创，但它们的形态——小、易改、可组合、一个文件一件事——是刻意照抄他的。去把[他的 repo](https://github.com/mattpocock/skills) 完整读一遍，那个比这个好。
 
 ## 📄 License
 

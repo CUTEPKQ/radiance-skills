@@ -54,6 +54,8 @@ Pick the skills you want and which agents to install them on. Update later with 
 /design             # write or update Design.md
 /handoff            # end of session — rewrite handoff.md, file what was settled
 /keep-going         # start of the next one — resume from handoff.md
+/pipeline-figure-style   # draw or critique a method figure
+/academic-page           # turn a report or memo into a single-page HTML
 ```
 
 ## 🧰 The skills
@@ -92,6 +94,14 @@ Run it before an experiment, not after: it forces the questions that are expensi
 
 The reference for writing anything an agent reads: a skill, a `CLAUDE.md`, a doc behind a pointer. Context pointers, the two loads, the information hierarchy, completion criteria, leading words, and pruning down to no-ops. The agent reaches for it on its own when you create or edit a skill or touch `CLAUDE.md` / `AGENTS.md`.
 
+### 🎨 [pipeline-figure-style](./skills/pipeline-figure-style/SKILL.md)
+
+A house style for pipeline / method / architecture figures: layout, palette with hex values and area budgets, shapes, arrow routing, typography. Pastel panels on white, **one hue per module**, saturation reserved for what's novel. Works for drawing a new figure (HTML/SVG, or a spec for draw.io / Figma / PPT) and for critiquing an existing one with concrete fixes.
+
+### 📄 [academic-page](./skills/academic-page/SKILL.md)
+
+Builds or restyles a single-page research HTML (report, survey memo, experiment write-up) from the bundled [`template.html`](./skills/academic-page/template.html). Fixed palette, one accent per screen, **motion only where it carries information**; numbers are checked against their source or tagged unverified. The skill is written in Chinese.
+
 ## 🙏 Acknowledgements
 
 This repo stands on [**mattpocock/skills**](https://github.com/mattpocock/skills) — Matt Pocock's *Skills For Real Engineers*.
@@ -101,7 +111,7 @@ This repo stands on [**mattpocock/skills**](https://github.com/mattpocock/skills
 - **`writing-for-agents` is his work, copied verbatim.**
 - **`handoff` began as a fork of his `handoff`** and has since been rewritten around a different job — research sessions rather than software tickets.
 
-`design` and `setup-research` are original, but the shape they take — small, hackable, composable, one file each — is copied from him on purpose. Go read [his repo](https://github.com/mattpocock/skills) in full; it is better than this one.
+`pipeline-figure-style` and `academic-page` are original. So are `design` and `setup-research`, but the shape they take — small, hackable, composable, one file each — is copied from him on purpose. Go read [his repo](https://github.com/mattpocock/skills) in full; it is better than this one.
 
 ## 📄 License
 
