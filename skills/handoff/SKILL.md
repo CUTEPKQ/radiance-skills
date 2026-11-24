@@ -1,41 +1,47 @@
 ---
 name: handoff
-description: Compact this session into handoff.md, and append what was tried to CHANGELOG.md.
+description: Compact this session into handoff.md, and file what it settled into the experiment docs and PITFALLS.md.
 argument-hint: "What will the next session focus on?"
 disable-model-invocation: true
 ---
 
 # Handoff
 
-Two documents at the project root (unless `CLAUDE.md` says otherwise), with opposite lifetimes:
+Paths below are the defaults; `CLAUDE.md` may override them. For every document: cite paths and commit hashes instead of copying content; label anything not actually run as an assumption; take numbers from logs or tracking runs, never from memory; redact secrets; get the date from `date +%F`. **Write only what a future session would otherwise have to rediscover.**
 
-- **`handoff.md`** — current state, rewritten from scratch every time.
-- **`CHANGELOG.md`** — history, appended to and never rewritten. It keeps what `handoff.md` throws away.
-
-For both: cite paths and commit hashes instead of copying content; label anything not actually run as an assumption; record failures, dead ends and skips with their reason; redact secrets; get the date from `date +%F`.
-
-## `handoff.md` — overwrite
+## 1. `handoff.md`: overwrite
 
 Read the existing file only to see which of its open items closed this session, then rewrite end to end.
 
-1. **Done / resolved** — what changed, what ran, what came out. Every claim carries its evidence: a metric, an error that stopped firing, a diff path.
-2. **Open / in progress** — running, stuck (symptom, what's ruled out, next thing to try), and untested hypotheses. Tag each `in progress` / `blocked` / `needs verification` / `parked (reason)`.
-3. **Reference** — files touched, one line each; **copy-pasteable** commands with config paths, checkpoints, overrides and env vars, never "run the training script"; links to tracking runs, issues, arXiv, commits.
+1. **Done / resolved**: what changed, what ran, what came out. Every claim carries its evidence: a metric, an error that stopped firing, a diff path.
+2. **Open / in progress**: running, stuck (symptom, what's ruled out, next thing to try), and untested hypotheses. Tag each `in progress` / `blocked` / `needs verification` / `parked (reason)`.
+3. **Reference**: files touched, one line each; **copy-pasteable** commands with config paths, checkpoints, overrides and env vars, never "run the training script"; links to tracking runs, issues, arXiv, commits.
 
-Arguments say what the next session is for — compress everything unrelated.
+Arguments say what the next session is for: compress everything unrelated.
 
-## `CHANGELOG.md` — append
+## 2. `docs/experiments/NNN-<slug>.md`: curate
 
-One entry per experiment or method exploration, **not per session**. Nothing tried, nothing written. Newest first, directly below the `# Changelog` header. Never edit an existing entry — a failed experiment stays on the record; only factual corrections, marked as such.
+One file per research question, not per run. Runs were logged as rows during the session (see the rule in `CLAUDE.md`); check that every run that produced an eval metric has its row, and add any that are missing.
 
 ```markdown
-## YYYY-MM-DD — <what was tried>
+# NNN: <question>
 
-- **Hypothesis** — what this settles.
-- **Done** — the change or config; cite the commit or config path.
-- **Result** — numbers, against a named baseline. Say so if it didn't finish.
-- **Verdict** — `works` / `doesn't work` / `inconclusive`, and why.
-- **Follow-up** — what it opens up or rules out.
+**Question:** what this settles.
+**Baseline:** the run and config everything is compared against.
+**Conclusion:** `works` / `doesn't work` / `inconclusive`, and why. `open` until the runs settle it.
+
+| Run | Commit | Change vs baseline | Result | Log |
+|---|---|---|---|---|
 ```
 
-If the method itself changed, run `design`.
+- Write or update **Conclusion** once the runs settle the question.
+- Delete rows that are only smoke tests or debug runs. A real run that failed stays: failures are the record.
+- A run that opens a different question starts a new file.
+
+## 3. `PITFALLS.md`: append
+
+A flat list, appended at the bottom. Add an entry only for something that cost real effort to work out, or a workflow convention that isn't obvious from the code. Method conventions (axis order, normalization) belong in `Design.md`.
+
+```markdown
+- **<symptom>** (YYYY-MM-DD): cause, and the fix or how to avoid it.
+```

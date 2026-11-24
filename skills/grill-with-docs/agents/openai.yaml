@@ -1,0 +1,5 @@
+interface:
+  display_name: "Grill with Docs"
+  short_description: "Grill a design and write Design.md and ADRs as it settles"
+policy:
+  allow_implicit_invocation: false

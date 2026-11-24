@@ -19,8 +19,12 @@ Record this project's conventions into its root `CLAUDE.md`, so `handoff` and `d
 
 ### Docs
 - `handoff.md` — current state, overwritten (path)
-- `CHANGELOG.md` — experiment history, append-only (path)
 - `Design.md` — current pipeline design (path)
+- `docs/experiments/` — one file per research question, runs as table rows (path). Read before proposing or launching an experiment: it may already have been tried.
+- `PITFALLS.md` — hard-won pitfalls, flat list (path). Read before debugging, or changing the environment, data pipeline or launch setup.
+- `docs/adr/` — decisions that are hard to reverse (path). Read before changing a design decision: it may already have been rejected.
+
+When a run produces an eval metric, immediately append a row to its file in `docs/experiments/`: Run | Commit (`git rev-parse --short HEAD`, plus `dirty` if the tree has uncommitted changes) | Change vs baseline | Result (from the log) | Log path. Skip smoke tests and debug runs. If no file fits, create one with only the question, baseline and table; leave the conclusion to `/handoff`. `Design.md` and ADRs are written by `/grill-with-docs` or `/design`; every other doc above only by `/handoff`, or when the user asks.
 
 ### Environment
 - Activate: <conda / venv / uv>
@@ -33,5 +37,5 @@ Record this project's conventions into its root `CLAUDE.md`, so `handoff` and `d
 - Configs / checkpoints / logs / datasets
 ```
 
-5. **Version control.** `CHANGELOG.md` and `Design.md` are the project's memory and belong in git; ask whether to gitignore `handoff.md`.
+5. **Version control.** Everything in Docs except `handoff.md` is the project's memory and belongs in git; ask whether to gitignore `handoff.md`.
 6. Show the block, flagging anything `unverified`.
